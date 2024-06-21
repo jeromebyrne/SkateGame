@@ -1,0 +1,103 @@
+{
+"skeleton": { "hash": "dQ/vmd7/qLA", "spine": "4.2.29", "x": -473, "y": 19.5, "width": 944, "height": 1542.82 },
+"bones": [
+	{ "name": "root", "x": -75.1, "y": 724.84 },
+	{ "name": "torso", "parent": "root", "length": 478.04, "rotation": 86.51, "x": 8.94, "y": 52.9 },
+	{ "name": "head", "parent": "torso", "length": 215.24, "rotation": -10.06, "x": 540.14, "y": -4.23 },
+	{ "name": "right_upper_arm", "parent": "torso", "length": 207.73, "rotation": 149.33, "x": 362.53, "y": 23.5 },
+	{ "name": "right_forearm", "parent": "right_upper_arm", "length": 186.53, "rotation": 32.52, "x": 238.64, "y": 8.72 },
+	{ "name": "right_hand", "parent": "right_forearm", "length": 57.27, "rotation": 30.23, "x": 217.2, "y": 18.14 },
+	{ "name": "left_upper_arm", "parent": "torso", "length": 165.78, "rotation": -138.14, "x": 349.4, "y": -29.66 },
+	{ "name": "left_forearm", "parent": "left_upper_arm", "length": 157.9, "rotation": -4.07, "x": 199.56, "y": -34.47 },
+	{ "name": "left_hand", "parent": "left_forearm", "length": 59.16, "rotation": 15.76, "x": 202.76, "y": 6.81 },
+	{ "name": "right_thigh", "parent": "root", "length": 202.61, "rotation": -86.75, "x": -7.1, "y": -27.81 },
+	{ "name": "right_shin", "parent": "right_thigh", "length": 340.11, "rotation": -31.73, "x": 227.41, "y": -9.31 },
+	{ "name": "right_foot", "parent": "right_shin", "length": 100.48, "rotation": 114.2, "x": 331.09, "y": 30.08 },
+	{ "name": "left_thigh", "parent": "root", "length": 228.32, "rotation": -42.18, "x": 29.19, "y": -32.33 },
+	{ "name": "left_shin", "parent": "left_thigh", "length": 344.36, "rotation": -61.4, "x": 239.27, "y": -26.6 },
+	{ "name": "left_foot", "parent": "left_shin", "length": 87.41, "rotation": 99.81, "x": 347.87, "y": 26.82 },
+	{ "name": "deck", "parent": "root", "length": 731.4, "rotation": -0.29, "x": -272.59, "y": -568.53 },
+	{ "name": "back_wheel", "parent": "deck", "length": 69.16, "rotation": -91.22, "x": 87.36, "y": -5.02 },
+	{ "name": "right_wheel", "parent": "deck", "length": 90.99, "rotation": -88.57, "x": 627.72, "y": -4.15 }
+],
+"slots": [
+	{ "name": "back_wheel", "bone": "back_wheel", "attachment": "back_wheel" },
+	{ "name": "front_wheel", "bone": "right_wheel", "attachment": "front_wheel" },
+	{ "name": "deck", "bone": "deck", "attachment": "deck" },
+	{ "name": "left_hand", "bone": "left_hand", "attachment": "left_hand" },
+	{ "name": "left_upper_arm", "bone": "left_upper_arm", "attachment": "left_upper_arm" },
+	{ "name": "left_foot", "bone": "left_foot", "attachment": "left_foot" },
+	{ "name": "left_forearm", "bone": "left_forearm", "attachment": "left_forearm" },
+	{ "name": "left_shin", "bone": "left_shin", "attachment": "left_shin" },
+	{ "name": "left_thigh", "bone": "left_thigh", "attachment": "left_thigh" },
+	{ "name": "torso", "bone": "torso", "attachment": "torso" },
+	{ "name": "right_foot", "bone": "right_foot", "attachment": "right_foot" },
+	{ "name": "right_shin", "bone": "right_shin", "attachment": "right_shin" },
+	{ "name": "right_thigh", "bone": "right_thigh", "attachment": "right_thigh" },
+	{ "name": "right_hand", "bone": "right_hand", "attachment": "right_hand" },
+	{ "name": "right_forearm", "bone": "right_forearm", "attachment": "right_forearm" },
+	{ "name": "right_upper_arm", "bone": "right_upper_arm", "attachment": "right_upper_arm" },
+	{ "name": "head", "bone": "head", "attachment": "head" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"back_wheel": {
+				"back_wheel": { "x": 5.02, "y": 259.58, "rotation": 91.51, "width": 944, "height": 239 }
+			},
+			"deck": {
+				"deck": { "x": 346.77, "y": -15.58, "rotation": 0.29, "width": 944, "height": 239 }
+			},
+			"front_wheel": {
+				"front_wheel": { "x": 4.41, "y": -281.14, "rotation": 88.85, "width": 944, "height": 239 }
+			},
+			"head": {
+				"head": { "x": -456.58, "y": -131.22, "rotation": -78.67, "width": 516, "height": 1416 }
+			},
+			"left_foot": {
+				"left_foot": { "x": -88.52, "y": 669.03, "rotation": 2.39, "width": 516, "height": 1416 }
+			},
+			"left_forearm": {
+				"left_forearm": { "x": 46.17, "y": -116.01, "rotation": 55.92, "width": 516, "height": 1416 }
+			},
+			"left_hand": {
+				"left_hand": { "x": -184.06, "y": -75.66, "rotation": 40.16, "width": 516, "height": 1416 }
+			},
+			"left_shin": {
+				"left_shin": { "x": -296.28, "y": -174.45, "rotation": 102.2, "width": 516, "height": 1416 }
+			},
+			"left_thigh": {
+				"left_thigh": { "x": -55.72, "y": 150.03, "rotation": 40.8, "width": 516, "height": 1416 }
+			},
+			"left_upper_arm": {
+				"left_upper_arm": { "x": 237.38, "y": -153.47, "rotation": 51.85, "width": 516, "height": 1416 }
+			},
+			"right_foot": {
+				"right_foot": { "x": 142.36, "y": 698.81, "rotation": 5.19, "width": 516, "height": 1416 }
+			},
+			"right_forearm": {
+				"right_forearm": { "x": 89.43, "y": 208.72, "rotation": 91.86, "width": 516, "height": 1416 }
+			},
+			"right_hand": {
+				"right_hand": { "x": -14.46, "y": 228.99, "rotation": 61.63, "width": 516, "height": 1416 }
+			},
+			"right_shin": {
+				"right_shin": { "x": -371.26, "y": -93.67, "rotation": 116.7, "width": 516, "height": 1416 }
+			},
+			"right_thigh": {
+				"right_thigh": { "x": -138.41, "y": 103.77, "rotation": 85.36, "width": 516, "height": 1416 }
+			},
+			"right_upper_arm": {
+				"right_upper_arm": { "x": 201.83, "y": 232.78, "rotation": 124.38, "width": 516, "height": 1416 }
+			},
+			"torso": {
+				"torso": { "x": 70.19, "y": -73.77, "rotation": -86.29, "width": 516, "height": 1416 }
+			}
+		}
+	}
+],
+"animations": {
+	"test": {}
+}
+}
