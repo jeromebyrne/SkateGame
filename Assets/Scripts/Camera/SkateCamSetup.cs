@@ -10,19 +10,19 @@ public class SkateCamSetup : MonoBehaviour
 
         float targetAspect = baseResolution.x / baseResolution.y;
         float windowAspect = (float)Screen.width / (float)Screen.height;
-        float scaleHeight = windowAspect / targetAspect;
+        float scaleWidth = targetAspect / windowAspect;
+        float halfWidth = baseResolution.x * 0.5f;
 
-        float totalScale = 0.15f;
+        float totalScale = 0.05f;
 
-        // Ensure the camera adjusts to fit height and expands width
-        if (scaleHeight >= 1.0f)
+        // Ensure the camera adjusts to fit width and expands height
+        if (scaleWidth >= 1.0f)
         {
-            _camera.orthographicSize = 360.0f * totalScale; // Half of 720 to fit the height
+            _camera.orthographicSize = halfWidth * scaleWidth * totalScale;
         }
         else
         {
-            _camera.orthographicSize = (360.0f / scaleHeight) * totalScale;
+            _camera.orthographicSize = halfWidth * totalScale;
         }
     }
-
 }

@@ -15,7 +15,7 @@ public class Rider : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            float pushSpeed = 0.02f;
+            float pushSpeed = 1.0f;
             Vector2 newVel = _rigidBody.velocity + new Vector2(_rigidBody.transform.right.x * pushSpeed, 0.0f);
 
             _rigidBody.velocity = newVel;

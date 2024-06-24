@@ -5,9 +5,10 @@ using UnityEngine;
 [InitializeOnLoad]
 public class PlayModeStartScene
 {
+    private const string PreviousScenePathKey = "PreviousScenePath";
+
     static PlayModeStartScene()
     {
-        Debug.Log("PlayModeStartScene Initialized");
         EditorApplication.playModeStateChanged += OnPlayModeChanged;
     }
 
@@ -15,25 +16,35 @@ public class PlayModeStartScene
     {
         if (state == PlayModeStateChange.ExitingEditMode)
         {
-            Debug.Log("Exiting Edit Mode");
-            // Change this to the path of your start scene
-            string startScenePath = "Assets/Scenes/GameStart.unity";
+            // Save the current scene path before switching to the GameStart scene
+            string previousScenePath = EditorSceneManager.GetActiveScene().path;
+            EditorPrefs.SetString(PreviousScenePathKey, previousScenePath);
 
-            if (EditorSceneManager.GetActiveScene().path != startScenePath)
+            // Change this to the path of your GameStart scene
+            string gameStartScenePath = "Assets/Scenes/GameStart.unity";
+
+            if (EditorSceneManager.GetActiveScene().path != gameStartScenePath)
             {
                 bool saved = EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
                 if (saved)
                 {
-                    EditorSceneManager.OpenScene(startScenePath);
-                    Debug.Log("Loading Bootstrap Scene");
+                    EditorSceneManager.OpenScene(gameStartScenePath);
                 }
                 else
                 {
                     // User canceled the save operation
-                    Debug.LogWarning("Scene save was canceled, remaining in the current scene.");
-                    // To prevent entering play mode without switching scene, we can exit play mode.
                     EditorApplication.isPlaying = false;
                 }
+            }
+        }
+        else if (state == PlayModeStateChange.EnteredEditMode)
+        {
+            // When exiting play mode, return to the previous scene
+            string previousScenePath = EditorPrefs.GetString(PreviousScenePathKey, string.Empty);
+            if (!string.IsNullOrEmpty(previousScenePath) && EditorSceneManager.GetActiveScene().path != previousScenePath)
+            {
+                EditorSceneManager.OpenScene(previousScenePath);
+                EditorPrefs.DeleteKey(PreviousScenePathKey);
             }
         }
     }

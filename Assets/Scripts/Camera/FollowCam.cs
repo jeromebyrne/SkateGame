@@ -1,23 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowCam : MonoBehaviour
 {
-    [SerializeField] Camera camera = null;
-    [SerializeField] GameObject objectToFollow = null;
+    [SerializeField] private Camera _camera = null;
+    [SerializeField] private GameObject _objectToFollow = null;
+    [SerializeField] private float _xOffset = 0f;
+    [SerializeField] private float _yOffset = 0f;
 
-    // Start is called before the first frame update
-    void Start()
+    private Vector3 _newPosition;
+
+    private void Start()
     {
-        
+        _newPosition = _camera.transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    // LateUpdate is called once per frame, after all Update methods have been called
+    private void LateUpdate()
     {
-        camera.transform.position = new Vector3(objectToFollow.transform.position.x,
-                                                objectToFollow.transform.position.y,
-                                                camera.transform.position.z);
+        // Update _newPosition with offsets
+        _newPosition.x = _objectToFollow.transform.position.x + _xOffset;
+        _newPosition.y = _objectToFollow.transform.position.y + _yOffset;
+
+        // Apply the new position to the camera
+        _camera.transform.position = _newPosition;
     }
 }

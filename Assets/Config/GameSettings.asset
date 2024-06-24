@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d748c6e19fe48ba8b792b342bf7146, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  _baseScreenResolution: {x: 1280, y: 720}
+  _baseScreenResolution: {x: 1920, y: 1080}
