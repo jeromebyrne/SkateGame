@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Skateboard : MonoBehaviour
+public class Rider : MonoBehaviour
 {
-    public Rigidbody2D deckRB = null;
+    public Rigidbody2D _rigidBody = null;
 
     // Start is called before the first frame update
     void Start()
@@ -18,9 +16,9 @@ public class Skateboard : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
         {
             float pushSpeed = 0.02f;
-            Vector2 newVel = deckRB.velocity + new Vector2(deckRB.transform.right.x * pushSpeed, 0.0f);
+            Vector2 newVel = _rigidBody.velocity + new Vector2(_rigidBody.transform.right.x * pushSpeed, 0.0f);
 
-            deckRB.velocity = newVel;
+            _rigidBody.velocity = newVel;
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -32,7 +30,7 @@ public class Skateboard : MonoBehaviour
             deckRB.velocity = newVel;
             */
 
-            deckRB.AddForce(new Vector2(0.0f, 90.0f), ForceMode2D.Impulse);
+            _rigidBody.AddForce(new Vector2(0.0f, 90.0f), ForceMode2D.Impulse);
         }
     }
 }
