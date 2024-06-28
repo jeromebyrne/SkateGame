@@ -15,11 +15,11 @@ public class RiderInput : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.RightArrow) &&
-            _riderStatus.AreAllWheelsTouchingSolid())
+        if (_riderStatus.AreAnyWheelsTouchingSolid())
         {
-            _riderMotion.Push();
+            _riderMotion.Push(1.0f);
         }
+
 
         if (Input.GetKeyDown(KeyCode.UpArrow) &&
             _riderStatus.AreAnyWheelsTouchingSolid())
