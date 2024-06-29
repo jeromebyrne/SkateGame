@@ -14,6 +14,8 @@ public class RiderStatus : MonoBehaviour
     public RaycastHit2D BackWheelRaycastHit { get; private set; }
     public RaycastHit2D FrontWheelRaycastHit { get; private set; }
 
+    public bool IsDoingManual { get; private set; }
+
     void Start()
     {
         _posOffset = new Vector2(0, WHEEL_ORIGIN_OFFSET_Y);
@@ -42,6 +44,22 @@ public class RiderStatus : MonoBehaviour
     void FixedUpdate()
     {
         UpdateRaycasts();
+    }
+
+    public void TryToManual()
+    {
+        if (!IsBackWheelTouchingSolid())
+        {
+            return;
+        }
+
+        // RiderStabilizer component will stabilize the manual
+        IsDoingManual = true;
+    }
+
+    public void StopManual()
+    {
+        IsDoingManual = false;
     }
 
     private void UpdateRaycasts()
