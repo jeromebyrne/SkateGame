@@ -13,7 +13,7 @@ public class SkateCamSetup : MonoBehaviour
         float scaleWidth = targetAspect / windowAspect;
         float halfWidth = baseResolution.x * 0.5f;
 
-        float totalScale = 0.06f;
+        float totalScale = 0.07f;
 
         // Ensure the camera adjusts to fit width and expands height
         if (scaleWidth >= 1.0f)

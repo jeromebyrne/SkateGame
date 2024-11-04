@@ -6,14 +6,20 @@ public class RiderStabilizer : MonoBehaviour
     [SerializeField] private Rigidbody2D _riderRigidbody;
     [SerializeField] private RiderStatus _riderStatus;
 
-    private const float MIN_TORQUE_MULTIPLIER = 0.25f; // Minimum torque multiplier
-    private const float MAX_TORQUE_MULTIPLIER = 1.0f; // Maximum torque multiplier
-    private const float DEFAULT_TORQUE_MULTIPLIER = 0.3f; // Default torque multiplier
+    private const float MIN_TORQUE_MULTIPLIER = 0.1f; // Minimum torque multiplier
+    private const float MAX_TORQUE_MULTIPLIER = 0.5f; // Maximum torque multiplier
+    private const float DEFAULT_TORQUE_MULTIPLIER = 0.2f; // Default torque multiplier
+
+    // manuals
+    private const float ADDITIONAL_UPWARD_FORCE = 675.0f; // Reduced force to lift the back or front wheel
     private const float BACK_WHEEL_BALANCE_ANGLE = 10.0f; // Angle to balance on the back wheel
-    private const float ADDITIONAL_UPWARD_FORCE = 675.0f; // Reduced force to lift the front wheel
-    private const float BALANCE_TORQUE = 40.0f; // Torque for balancing
-    private const float MAX_BACK_ANGLE = 15.0f; // Maximum allowed tilt angle backwards
-    private const float MAX_FORWARD_ANGLE = 10.0f; // Maximum allowed tilt angle forwards
+    private const float FRONT_WHEEL_BALANCE_ANGLE = -15.0f; // Angle to balance on the front wheel
+    private const float MANUAL_BALANCE_TORQUE = 40.0f; // Torque for balancing
+    private const float MANUAL_MAX_BACK_ANGLE = 15.0f; // Maximum allowed tilt angle backwards
+    private const float MANUAL_MAX_FORWARD_ANGLE = 10.0f; // Maximum allowed tilt angle forward
+    private const float NOSE_MANUAL_MAX_FORWARD_ANGLE = -20.0f; 
+    private const float NOSE_MANUAL_MAX_BACK_ANGLE = -10.0f; 
+
     private const float DAMPING_FACTOR = 0.95f; // Damping factor to smooth forces
 
     void Start()
@@ -33,6 +39,10 @@ public class RiderStabilizer : MonoBehaviour
             if (_riderStatus.IsDoingManual)
             {
                 DoManual();
+            }
+            else if (_riderStatus.IsDoingNoseManual)
+            {
+                DoNoseManual();
             }
         }
     }
@@ -62,33 +72,62 @@ public class RiderStabilizer : MonoBehaviour
 
     private void DoManual()
     {
-        if (_riderStatus.IsBackWheelTouchingSolid())
+        if (!_riderStatus.IsBackWheelTouchingSolid())
         {
-            // Apply an upward force at a fixed relative point to the rider to lift the front wheel
-            _riderRigidbody.AddForceAtPosition(Vector2.up * ADDITIONAL_UPWARD_FORCE, _riderTransform.TransformPoint(new Vector2(0, -0.5f)));
+            return;
+        }
 
-            // Get the angle of the back wheel's contact point
-            float angle = Mathf.Atan2(_riderStatus.BackWheelRaycastHit.normal.y, _riderStatus.BackWheelRaycastHit.normal.x) * Mathf.Rad2Deg - 90f;
-            // Add offset to angle to balance on the back wheel
-            angle += BACK_WHEEL_BALANCE_ANGLE;
-            Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+        // Apply an upward force at a fixed relative point to the rider to lift the front wheel
+        _riderRigidbody.AddForceAtPosition(Vector2.up * ADDITIONAL_UPWARD_FORCE, _riderTransform.TransformPoint(new Vector2(0, -0.5f)));
 
-            // Apply increased torque to maintain balance on the back wheel
-            ApplyTorqueToMatchRotation(targetRotation, 1.0f);
+        // Get the angle of the back wheel's contact point
+        float angle = Mathf.Atan2(_riderStatus.BackWheelRaycastHit.normal.y, _riderStatus.BackWheelRaycastHit.normal.x) * Mathf.Rad2Deg - 90f;
+        // Add offset to angle to balance on the back wheel
+        angle += BACK_WHEEL_BALANCE_ANGLE;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
 
-            // Apply corrective torque if the rider tilts too far back or forward
-            float currentAngle = _riderTransform.eulerAngles.z;
-            if (currentAngle > MAX_BACK_ANGLE && currentAngle < 360 - MAX_FORWARD_ANGLE)
-            {
-                ApplyTorqueToMatchRotation(Quaternion.identity, 1.0f);
-            }
+        // Apply increased torque to maintain balance on the back wheel
+        ApplyTorqueToMatchRotation(targetRotation, 1.0f);
+
+        // Apply corrective torque if the rider tilts too far back or forward
+        float currentAngle = _riderTransform.eulerAngles.z;
+        if (currentAngle > MANUAL_MAX_BACK_ANGLE && currentAngle < 360 - MANUAL_MAX_FORWARD_ANGLE)
+        {
+            ApplyTorqueToMatchRotation(Quaternion.identity, 1.0f);
+        }
+    }
+
+    private void DoNoseManual()
+    {
+        if (!_riderStatus.IsFrontWheelTouchingSolid())
+        {
+            return;
+        }
+
+        // Apply an upward force at a fixed relative point to the rider to lift the front wheel
+        _riderRigidbody.AddForceAtPosition(Vector2.up * ADDITIONAL_UPWARD_FORCE, _riderTransform.TransformPoint(new Vector2(0, -0.5f)));
+
+        // Get the angle of the back wheel's contact point
+        float angle = Mathf.Atan2(_riderStatus.FrontWheelRaycastHit.normal.y, _riderStatus.FrontWheelRaycastHit.normal.x) * Mathf.Rad2Deg - 90f;
+        // Add offset to angle to balance on the back wheel
+        angle += FRONT_WHEEL_BALANCE_ANGLE;
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+
+        // Apply increased torque to maintain balance on the back wheel
+        ApplyTorqueToMatchRotation(targetRotation, 1.0f);
+
+        // Apply corrective torque if the rider tilts too far back or forward
+        float currentAngle = _riderTransform.eulerAngles.z;
+        if (currentAngle > NOSE_MANUAL_MAX_FORWARD_ANGLE && currentAngle < 360 - NOSE_MANUAL_MAX_BACK_ANGLE)
+        {
+            ApplyTorqueToMatchRotation(Quaternion.identity, 1.0f);
         }
     }
 
     private void ApplyTorqueToMatchRotation(Quaternion targetRotation, float torqueMultiplier)
     {
         float angleDifference = Mathf.DeltaAngle(_riderTransform.eulerAngles.z, targetRotation.eulerAngles.z);
-        float torque = angleDifference * BALANCE_TORQUE * torqueMultiplier;
+        float torque = angleDifference * MANUAL_BALANCE_TORQUE * torqueMultiplier;
 
         // Apply damping to the torque
         _riderRigidbody.angularVelocity *= DAMPING_FACTOR;

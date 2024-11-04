@@ -9,7 +9,6 @@ public class RiderInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -21,22 +20,10 @@ public class RiderInput : MonoBehaviour
             _riderMotion.Push(1.0f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) &&
+        if (Input.GetMouseButtonUp(0) &&
             _riderStatus.AreAnyWheelsTouchingSolid())
         {
             _riderMotion.Jump();
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            if (_riderStatus.IsDoingManual)
-            {
-                _riderStatus.StopManual();
-            }
-            else
-            {
-                _riderStatus.TryToManual();
-            }
         }
     }
 }

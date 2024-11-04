@@ -5,7 +5,7 @@ public class RiderMotion : MonoBehaviour
     [SerializeField] private Rigidbody2D _riderRigidBody = null;
     [SerializeField] private RiderStatus _riderStatus = null;
 
-    private readonly Vector2 BASE_JUMP_FORCE = new Vector2(0.0f, 150.0f);
+    private readonly Vector2 BASE_JUMP_FORCE = new Vector2(0.0f, 250.0f);
     private const float PUSH_FORCE = 350.0f;
     private const float MAX_VELOCITY_X = 200.0f;
     private const float JUMP_FORCE_MULTIPLIER = 3.0f;
@@ -34,6 +34,11 @@ public class RiderMotion : MonoBehaviour
         float xVelocity = Mathf.Abs(_riderRigidBody.velocity.x);
         float proportionalJumpForceMagnitude = BASE_JUMP_FORCE.y + (xVelocity * JUMP_FORCE_MULTIPLIER);
         proportionalJumpForceMagnitude = Mathf.Min(proportionalJumpForceMagnitude, MAX_JUMP_FORCE);
+
+        // set the y velocity to 0 before we jump
+        Vector2 currentVelocity = _riderRigidBody.velocity;
+        currentVelocity.y = 0; // Set Y velocity to 0
+        _riderRigidBody.velocity = currentVelocity;
 
         // Calculate the jump force direction based on the ground's orientation
         Vector2 jumpDirection = Vector2.up * proportionalJumpForceMagnitude; // Assuming up is the ground-relative up direction
